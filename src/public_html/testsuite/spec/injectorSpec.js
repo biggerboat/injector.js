@@ -39,7 +39,7 @@ require(["main"],
 				var someObject = {
 					someValue: 'inject'
 				};
-				injector.injectInto(someObject)
+				injector.injectInto(someObject);
 
 				expect(someObject.someValue.hello).toBe("Hello World");
 			});
