@@ -1,1 +1,1 @@
-injector = {};
+var injector = {};

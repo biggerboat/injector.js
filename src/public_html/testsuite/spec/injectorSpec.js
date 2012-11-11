@@ -3,6 +3,7 @@ require.config({
 });
 
 require(["main"],
+//require(["../libs/injector.min"],
 
 	function () {
 		describe("Injector", function() {
