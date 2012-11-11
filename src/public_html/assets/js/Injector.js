@@ -47,22 +47,37 @@ injector.Injector.prototype = {
 		return this._mappings.hasOwnProperty(mappingID);
 	},
 
+    getInstance: function(type, name) {
+        if(this.hasMapping(type, name)) {
+            return this.getMapping(type, name).getValue();
+        } else {
+            var nameError = name == undefined ? "" : " by name "+ name;
+            throw new Error("Cannot return instance \"" + type + nameError + "\" because no mapping has been found");
+        }
+    },
+
+    getMapping: function(type, name) {
+        if(this.hasMapping(type, name)) {
+            var mappingID = this._getMappingID(type, name);
+            return this._mappings[mappingID];
+        } else {
+            var nameError = name == undefined ? "" : " by name "+ name;
+            throw new Error("Mapping \"" + type + nameError + "\" was not found");
+        }
+    },
+
 	injectInto: function(object) {
-		var member, mappingID, mapping, injectionObject;
+		var member, injectionObject;
 
 		for (member in object) {
 
 			injectionObject = injector.utils.stringToObject(member, object[member]);
 
-			console.log('Injector -> injectInto', injectionObject, object[member]);
-
 			if(injectionObject!=null) {
 				if(this.hasMapping(injectionObject.type, injectionObject.name)) {
-					mappingID = this._getMappingID(injectionObject.type, injectionObject.name);
-					mapping = this._mappings[mappingID];
-					object[member] = mapping.getValue();
+					object[member] = this.getInstance(injectionObject.type, injectionObject.name);
 				} else {
-					throw new Error("Cannot inject"+injectionObject.type+" into "+object+" due to a missing rule");
+					throw new Error("Cannot inject "+injectionObject.type+" into "+object+" due to a missing rule");
 				}
 			}
 		}

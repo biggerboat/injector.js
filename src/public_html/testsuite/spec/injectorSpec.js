@@ -64,11 +64,13 @@ require(["main"],
 
 				var someObject = {
 					test: function() {},
-					otherValue: 'inject(name="one"):someValue'
+                    otherValue1: 'inject(name="one"):someValue',
+                    otherValue2: 'inject(name="two"):someValue'
 				};
 				injector.injectInto(someObject);
 
-				expect(someObject.otherValue).toBe(someValue1);
+				expect(someObject.otherValue1).toBe(someValue1);
+                expect(someObject.otherValue2).toBe(someValue2);
 			});
 
 			it("Calls post constructs", function() {
@@ -89,6 +91,48 @@ require(["main"],
 
 				expect(someObject.counter).toBe(1);
 			});
+
+            it("returns an instance", function() {
+                var someObject = function(){};
+                someObject.prototype = { testVar: 'test'};
+
+                injector.map('someObject').toType(someObject);
+
+                var someCreatedObject1 = injector.getInstance('someObject');
+
+                expect(someCreatedObject1.testVar).toEqual('test');
+            });
+
+            it("returns two unique instances", function() {
+                var someObject = function(){};
+                someObject.prototype = { testVar: 'test'};
+
+                injector.map('someObject').toType(someObject);
+
+                var someCreatedObject1 = injector.getInstance('someObject');
+                var someCreatedObject2 = injector.getInstance('someObject');
+                someCreatedObject2.testVar = 'hello world';
+
+                expect(someCreatedObject1.testVar).not.toEqual(someCreatedObject2.testVar);
+            });
+
+            it("returns the same singleton instance", function() {
+                var someObject = function(){};
+                someObject.prototype = { testVar: 'test'};
+
+                injector.map('someObject').toSingleton(someObject);
+
+                var someCreatedObject1 = injector.getInstance('someObject');
+                var someCreatedObject2 = injector.getInstance('someObject');
+                someCreatedObject2.testVar = 'hello world';
+
+                expect(someCreatedObject1.testVar).toEqual(someCreatedObject2.testVar);
+            });
+
+            it("returns a specific error when there is no mapping", function() {
+                expect(function(){injector.getInstance('someObject')}).toThrow(new Error('Cannot return instance "someObject" because no mapping has been found'));
+                expect(function(){injector.getInstance('someObject', 'someName')}).toThrow(new Error('Cannot return instance "someObject by name someName" because no mapping has been found'));
+            });
 		});
 	}
 );
