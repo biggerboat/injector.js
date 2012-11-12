@@ -19,14 +19,14 @@ injector.Injector = function() {
 	}
 
 	this._postConstruct = function(object) {
-		var postConstructs = object.hasOwnProperty("postConstructs") ? object["postConstructs"] instanceof Array ? object["postConstructs"] : [] : [],
+		var postConstructs = object.postConstructs!== undefined ? object.postConstructs instanceof Array ? object.postConstructs : [] : [],
 			index,
 			methodName,
 			method;
 		
 		for(index in postConstructs) {
 			methodName = postConstructs[index];
-			method = object.hasOwnProperty(methodName) ? object[methodName] : null;
+			method = object[methodName]=== undefined ? null : object[methodName];
 
 			if(typeof method === 'function') {
 				method.apply(object);
@@ -44,7 +44,7 @@ injector.Injector.prototype = {
 
 	hasMapping: function(type, name) {
 		var mappingID = this._getMappingID(type, name);
-		return this._mappings.hasOwnProperty(mappingID);
+		return this._mappings[mappingID]!==undefined;
 	},
 
     getInstance: function(type, name) {

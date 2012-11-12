@@ -93,6 +93,28 @@ require(["main"],
 				expect(someObject.counter).toBe(1);
 			});
 
+            it("Calls post constructs and injects on a newly created instance", function() {
+                var someValue = "Hello World";
+                injector.map('someValue').toValue(someValue);
+
+                var MyClass = function () {};
+                MyClass.prototype = {
+                    postConstructs: ['onPostConstruct'],
+                    counter: 0,
+                    someValue: 'inject',
+
+                    onPostConstruct: function() {
+                        this.counter++;
+                        console.log('someObject -> onPostConstruct', this, this.counter);
+                    }
+                }
+                var someObject = new MyClass();
+                injector.injectInto(someObject);
+
+                expect(someObject.counter).toBe(1);
+                expect(someObject.someValue).toBe(someValue);
+            });
+
             it("returns an instance", function() {
                 var someObject = function(){};
                 someObject.prototype = { testVar: 'test'};
