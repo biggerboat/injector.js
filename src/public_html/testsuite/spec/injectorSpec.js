@@ -156,6 +156,27 @@ require(["main"],
                 expect(function(){injector.getInstance('someObject')}).toThrow(new Error('Cannot return instance "someObject" because no mapping has been found'));
                 expect(function(){injector.getInstance('someObject', 'someName')}).toThrow(new Error('Cannot return instance "someObject by name someName" because no mapping has been found'));
             });
+
+			it("can unmap mappings by type", function() {
+				var someValue = "Hello World";
+				injector.map('someValue').toValue(someValue);
+				expect(injector.getInstance('someValue')).toBe(someValue);
+
+				injector.unmap('someValue');
+
+				expect(function(){injector.getInstance('someValue')}).toThrow(new Error('Cannot return instance "someValue" because no mapping has been found'));
+			});
+
+			it("can unmap mappings by type and name", function() {
+				var someValue = "Hello World";
+				injector.map('someValue', 'myName').toValue(someValue);
+				expect(injector.getInstance('someValue', 'myName')).toBe(someValue);
+
+				injector.unmap('someValue', 'myName');
+
+				expect(function(){injector.getInstance('someValue', 'myName')}).toThrow(new Error('Cannot return instance "someValue by name myName" because no mapping has been found'));
+			});
+
 		});
 	}
 );

@@ -42,6 +42,16 @@ injector.Injector.prototype = {
 		return this._mappings[mappingID] || this._createMapping(type, name, mappingID);
 	},
 
+	unmap: function(type, name) {
+		if(this.hasMapping(type, name)) {
+			var mappingID = this._getMappingID(type, name);
+			delete this._mappings[mappingID];
+		} else {
+			var nameError = name == undefined ? "" : " by name "+ name;
+			throw new Error("Cannot unmap \"" + type + nameError + "\" because no mapping has been found");
+		}
+	},
+
 	hasMapping: function(type, name) {
 		var mappingID = this._getMappingID(type, name);
 		return this._mappings[mappingID]!==undefined;
