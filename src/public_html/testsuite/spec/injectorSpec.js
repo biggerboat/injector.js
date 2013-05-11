@@ -56,6 +56,27 @@ require(["main"],
 				expect(someObject.otherValue).toBe(someValue);
 			});
 
+			it("injects an object by name", function() {
+				var someValue1 = "Hello World 1";
+				var someValue2 = "Hello World 2";
+
+				injector.map('someValue', 'one').toValue(someValue1);
+				injector.map('someValue', 'two').toValue(someValue2);
+
+				var someObject1 = {
+					someValue: 'inject(name="one")'
+				};
+				injector.injectInto(someObject1);
+
+				var someObject2 = {
+					someValue: 'inject(name="two")'
+				};
+				injector.injectInto(someObject2);
+
+				expect(someObject1.someValue).toBe(someValue1);
+				expect(someObject2.someValue).toBe(someValue2);
+			});
+
 			it("Injects a named specific type that doesn't have anything to do with the variable name", function() {
 				var someValue1 = "Hello World 1";
 				var someValue2 = "Hello World 2";
@@ -92,7 +113,7 @@ require(["main"],
 				expect(someObject.counter).toBe(1);
 			});
 
-		it("Calls post constructs and injects on a newly created instance", function() {
+			it("Calls post constructs and injects on a newly created instance", function() {
 				var someValue = "Hello World";
 				injector.map('someValue').toValue(someValue);
 

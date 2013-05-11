@@ -18,7 +18,7 @@ injector.utils.stringToObject = function(type, injectionString) {
 		startsWithInjectRegExp = new RegExp('^inject'),
 		//injectionNameRegExp = new RegExp(/(?<=name=")[^]+?(?=")/), // contains a lookbehind, which is not supported by JS
 		injectionNameRegExp = new RegExp(/[\w:\-]?name[\s]*?=[\s]*?("[^"]+"|'[^']+'|\w+)/),
-		toTypeRegExp = new RegExp('[^:]+$'),
+		toTypeRegExp = new RegExp(':[^:]+$'), //This will return everything from the last colon (including the colon)
 		name, toType;
 
 	if(injectionString=='inject') {
@@ -28,7 +28,7 @@ injector.utils.stringToObject = function(type, injectionString) {
 		name = injectionNameRegExp.exec(injectionString);
 		toType = toTypeRegExp.exec(injectionString);
 		injectionObject.name = name != null && name.length==2 ? name[1].replace(/"/gm,"") : '';
-		injectionObject.type = toType != null && toType.length==1 ? toType[0] : type;
+		injectionObject.type = toType != null && toType.length==1 ? toType[0].replace(':','') : type; //If we did match a type specification, then strip of the colon, else use the input type
 
 		return injectionObject;
 	}
