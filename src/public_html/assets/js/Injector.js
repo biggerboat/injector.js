@@ -57,24 +57,24 @@ injector.Injector.prototype = {
 		return this._mappings[mappingID]!==undefined;
 	},
 
-    getInstance: function(type, name) {
-        if(this.hasMapping(type, name)) {
-            return this.getMapping(type, name).getValue();
-        } else {
-            var nameError = name == undefined ? "" : " by name "+ name;
-            throw new Error("Cannot return instance \"" + type + nameError + "\" because no mapping has been found");
-        }
-    },
+	getInstance: function(type, name) {
+		if(this.hasMapping(type, name)) {
+			return this.getMapping(type, name).getValue();
+		} else {
+			var nameError = name == undefined ? "" : " by name "+ name;
+			throw new Error("Cannot return instance \"" + type + nameError + "\" because no mapping has been found");
+		}
+	},
 
-    getMapping: function(type, name) {
-        if(this.hasMapping(type, name)) {
-            var mappingID = this._getMappingID(type, name);
-            return this._mappings[mappingID];
-        } else {
-            var nameError = name == undefined ? "" : " by name "+ name;
-            throw new Error("Mapping \"" + type + nameError + "\" was not found");
-        }
-    },
+	getMapping: function(type, name) {
+		if(this.hasMapping(type, name)) {
+			var mappingID = this._getMappingID(type, name);
+			return this._mappings[mappingID];
+		} else {
+			var nameError = name == undefined ? "" : " by name "+ name;
+			throw new Error("Mapping \"" + type + nameError + "\" was not found");
+		}
+	},
 
 	injectInto: function(object) {
 		var member, injectionObject;

@@ -22,7 +22,7 @@
 //});
 
 require(["namespaces",
-         "Injector",
+		 "Injector",
 		 "InjectorUtils",
 		 "InjectionMapping"],
 
