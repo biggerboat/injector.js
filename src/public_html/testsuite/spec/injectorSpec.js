@@ -64,7 +64,6 @@ require(["main"],
 				injector.map('someValue', 'two').toValue(someValue2);
 
 				var someObject = {
-					test: function() {},
                     otherValue1: 'inject(name="one"):someValue',
                     otherValue2: 'inject(name="two"):someValue'
 				};
@@ -93,69 +92,69 @@ require(["main"],
 				expect(someObject.counter).toBe(1);
 			});
 
-            it("Calls post constructs and injects on a newly created instance", function() {
-                var someValue = "Hello World";
-                injector.map('someValue').toValue(someValue);
+		it("Calls post constructs and injects on a newly created instance", function() {
+				var someValue = "Hello World";
+				injector.map('someValue').toValue(someValue);
 
-                var MyClass = function () {};
-                MyClass.prototype = {
-                    postConstructs: ['onPostConstruct'],
-                    counter: 0,
-                    someValue: 'inject',
+				var MyClass = function () {};
+				MyClass.prototype = {
+					postConstructs: ['onPostConstruct'],
+					counter: 0,
+					someValue: 'inject',
 
-                    onPostConstruct: function() {
-                        this.counter++;
-                        console.log('someObject -> onPostConstruct', this, this.counter);
-                    }
-                }
-                var someObject = new MyClass();
-                injector.injectInto(someObject);
+					onPostConstruct: function() {
+						this.counter++;
+						console.log('someObject -> onPostConstruct', this, this.counter);
+					}
+				};
+				var someObject = new MyClass();
+				injector.injectInto(someObject);
 
-                expect(someObject.counter).toBe(1);
-                expect(someObject.someValue).toBe(someValue);
-            });
+				expect(someObject.counter).toBe(1);
+				expect(someObject.someValue).toBe(someValue);
+			});
 
-            it("returns an instance", function() {
-                var someObject = function(){};
-                someObject.prototype = { testVar: 'test'};
+			it("returns an instance", function() {
+				var someObject = function(){};
+				someObject.prototype = { testVar: 'test'};
 
-                injector.map('someObject').toType(someObject);
+				injector.map('someObject').toType(someObject);
 
-                var someCreatedObject1 = injector.getInstance('someObject');
+				var someCreatedObject1 = injector.getInstance('someObject');
 
-                expect(someCreatedObject1.testVar).toEqual('test');
-            });
+				expect(someCreatedObject1.testVar).toEqual('test');
+			});
 
-            it("returns two unique instances", function() {
-                var someObject = function(){};
-                someObject.prototype = { testVar: 'test'};
+			it("returns two unique instances", function() {
+				var someObject = function(){};
+				someObject.prototype = { testVar: 'test'};
 
-                injector.map('someObject').toType(someObject);
+				injector.map('someObject').toType(someObject);
 
-                var someCreatedObject1 = injector.getInstance('someObject');
-                var someCreatedObject2 = injector.getInstance('someObject');
-                someCreatedObject2.testVar = 'hello world';
+				var someCreatedObject1 = injector.getInstance('someObject');
+				var someCreatedObject2 = injector.getInstance('someObject');
+				someCreatedObject2.testVar = 'hello world';
 
-                expect(someCreatedObject1.testVar).not.toEqual(someCreatedObject2.testVar);
-            });
+				expect(someCreatedObject1.testVar).not.toEqual(someCreatedObject2.testVar);
+			});
 
-            it("returns the same singleton instance", function() {
-                var someObject = function(){};
-                someObject.prototype = { testVar: 'test'};
+			it("returns the same singleton instance", function() {
+				var someObject = function(){};
+				someObject.prototype = { testVar: 'test'};
 
-                injector.map('someObject').toSingleton(someObject);
+				injector.map('someObject').toSingleton(someObject);
 
-                var someCreatedObject1 = injector.getInstance('someObject');
-                var someCreatedObject2 = injector.getInstance('someObject');
-                someCreatedObject2.testVar = 'hello world';
+				var someCreatedObject1 = injector.getInstance('someObject');
+				var someCreatedObject2 = injector.getInstance('someObject');
+				someCreatedObject2.testVar = 'hello world';
 
-                expect(someCreatedObject1.testVar).toEqual(someCreatedObject2.testVar);
-            });
+				expect(someCreatedObject1.testVar).toEqual(someCreatedObject2.testVar);
+			});
 
-            it("returns a specific error when there is no mapping", function() {
-                expect(function(){injector.getInstance('someObject')}).toThrow(new Error('Cannot return instance "someObject" because no mapping has been found'));
-                expect(function(){injector.getInstance('someObject', 'someName')}).toThrow(new Error('Cannot return instance "someObject by name someName" because no mapping has been found'));
-            });
+			it("returns a specific error when there is no mapping", function() {
+				expect(function(){injector.getInstance('someObject')}).toThrow(new Error('Cannot return instance "someObject" because no mapping has been found'));
+				expect(function(){injector.getInstance('someObject', 'someName')}).toThrow(new Error('Cannot return instance "someObject by name someName" because no mapping has been found'));
+			});
 
 			it("can unmap mappings by type", function() {
 				var someValue = "Hello World";
