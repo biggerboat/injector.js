@@ -10,22 +10,25 @@ A Jasmine testsuite is provided to test all of the supported features by the inj
 ### Inject a basic type by variable name
 #### Step 1: Setup
 Instantiate the injector and create a variable which we would like to inject into another object
-
-	var injector = new injector.Injector();
-	var myValue = "Hello world";
+```JavaScript
+var injector = new injector.Injector();
+var myValue = "Hello world";
+```
 
 #### Step 2: Map
 Configure the value to be registred as type `myType`
-
-	injector.map('myType').toValue(myValue);
+```JavaScript
+injector.map('myType').toValue(myValue);
+```
 This exposes whatever is assigned to `myValue` (in this case the string "Hello world") under the key `myType`.
 
 #### Step 3: The object to inject into
 Define the object that needs to be injected into. This is nothing more than a regular object with a special property and value.
-
-	var objectToInjectInto = {
-		myType: "inject"
-	};
+```JavaScript
+var objectToInjectInto = {
+	myType: "inject"
+};
+```
 Because we just mapped `myType` in step 2, we need to use this name here, else we can not inject. Also notice the "inject" string. Based on this string we know that we can lookup `myType` in the injector and assign its value to the object.
 
 #### Step 4: Apply dependency injection
@@ -38,147 +41,159 @@ Method `injector.injectInto(…)` will loop through all the properties of the ob
 
 #### Summary
 The for steps above are the minimal amount of steps to put the dependency injection to work in its most simplistic form. All steps combined together takes just a few lines of code:
+```JavaScript
+var injector = new injector.Injector();
+var myValue = "Hello world";
+injector.map('myType').toValue(myValue);
 
-	var injector = new injector.Injector();
-	var myValue = "Hello world";
-	injector.map('myType').toValue(myValue);
-
-	var objectToInjectInto = {
-		myType: "inject"
-	};
-
-	injector.injectInto(objectToInjectInto);
-
+var objectToInjectInto = {
+	myType: "inject"
+};
+injector.injectInto(objectToInjectInto);
+```
 ***
 
 ### Manually getting values from the injector
 Lets assume we have configured the same injection rules as in the previous example:
-
-	var injector = new injector.Injector();
-	var myValue = "Hello world";
-	injector.map('myType').toValue(myValue);	
+```JavaScript
+var injector = new injector.Injector();
+var myValue = "Hello world";
+injector.map('myType').toValue(myValue);
+```
 In order to get "Hello world" out of the injector we can just call:
-
-	injector.getInstance('myType');
-
+```JavaScript
+injector.getInstance('myType');
+```
 ***
 	
 ### More advanced/Real world usage
 Though the above sounds nice, its a bit to complex for just passing on one string to another object. It gets more interesting when you have lots of objects that needs to be injected in many other objects. 
 
 Essentially the string "Hello world" from our previous example is just an object. Thus the injector is perfectly capable of working with mapping objects. So one could for example do the following:
-
-	var someObject = {a: 'b', c: 'd'};
-	injector.map('myType').toValue(someObject);
-
+```JavaScript
+var someObject = {a: 'b', c: 'd'};
+injector.map('myType').toValue(someObject);
+```
 
 #### Injecting a singleton value
 Say you have a class that needs to be used as a singleton within your application. You could make a real singleton, but we all should have learned that [singletons are bad practice](http://www.google.com/search?q=why+is+singleton+pattern+bad). Using the approach with dependency injection takes away the arguments not to use it.
 Creating a singleton out of the class `MyModel` would be as easy as this:
 
-	injector.map('myModel').toSingleton(MyModel);
+```JavaScript
+injector.map('myModel').toSingleton(MyModel);
+```
 Under the hood this is just the same as:
-	
-	var myModelInstance = new MyModel();
-	injector.map('myModel').toValue(myModelInstance);
-
+```JavaScript	
+var myModelInstance = new MyModel();
+injector.map('myModel').toValue(myModelInstance);
+```
 In other words we just create an instance once and pass it on every time `myModel` is requested. 
-
 
 #### Injecting new instances
 Lets assume again that you have a class `MyModel`. But instead of mapping the same instance into each object, you just want to map it to a new and unique instance every time. To achieve this, you just need to map it as following:
-
-	injector.map('myModel').toType(MyModel);
+```JavaScript
+injector.map('myModel').toType(MyModel);
+```
 Now every time a new model will be returned when a model is requested. One might ask himself why that would be useful as the instance is always unique and won't be shared with other objects. A good use case would be the situation where you would like to switch from one type to another. Say you have a special model that you use during development, but needs to be changed by a more different version for production. In that case you could use this during development:
-
-	injector.map('myModel').toType(MyDevModel);
+```JavaScript
+injector.map('myModel').toType(MyDevModel);
+```
 Once switching to production you could just switch this to:
-	
-	injector.map('myModel').toType(MyProductionModel);
+```JavaScript	
+injector.map('myModel').toType(MyProductionModel);
+```
 After that all instances will be created using this production model.
 Off course, you need to make sure that this object supports all methods and properties that you will use in the rest of your code.
 A big advantage is that you can switch this at a central location within your application, even though many other classes make use of this same "myModel".
 
 #### Types
 The first argument to an injector.map(…) call is named "type". I'd like to think of a type as the concept of a datatype. By giving this a proper name it would become more clear which data to expect. So lets say I want to inject an instance of `MyModel`, I will map it as `myModel`:
-
-	injector.map('myModel').toValue(myModelInstance);
-	var objectToInjectInto = {
-		myModel: "inject"
-	};
+```JavaScript
+injector.map('myModel').toValue(myModelInstance);
+var objectToInjectInto = {
+	myModel: "inject"
+};
+```
 
 When we choose a different name for the the type, such as a generic name `model` for example, it would become unclear which data type to expect:
-	
-	injector.map('model').toValue(myModelInstance);
-	var objectToInjectInto = {
-		model: "inject"
-	};
+```JavaScript	
+injector.map('model').toValue(myModelInstance);
+var objectToInjectInto = {
+	model: "inject"
+};
+```
 Though this code is perfectly valid, this will especially become unclear when there are many models to be injected.
 
 ##### Injecting a different type
 In case you will find yourself in some situation where you want to inject into a different type than the type that was passed to the injector, you could simply specify this by a colon:
-
-	injector.map('myModel').toSingleton(MyModel);
-	var objectToInjectInto = {
-		model : "inject:myModel"
-	}
-	injector.injectInto(objectToInjectInto);
+```JavaScript
+injector.map('myModel').toSingleton(MyModel);
+var objectToInjectInto = {
+	model : "inject:myModel"
+}
+injector.injectInto(objectToInjectInto);
+```
 So in this case "model" will be ignored and we just do a lookup in the injector for "myModel";
-
 
 ##### Named injection
 There are use-cases where one needs to map multiple instances of the same type to the injector. A good example would be when you have multiple pages within your application, each requirring an instance of the same class `PageModel`. In order to do this you could use named injection. To put this to work you can provide a second argument to the `map(…)` method:
 
-	injector.map('pageModel', 'home').toSingleton(PageModel);
-	injector.map('pageModel', 'about').toSingleton(PageModel);
-	injector.map('pageModel', 'contact').toSingleton(PageModel);
+```JavaScript
+injector.map('pageModel', 'home').toSingleton(PageModel);
+injector.map('pageModel', 'about').toSingleton(PageModel);
+injector.map('pageModel', 'contact').toSingleton(PageModel);
+```
 
 While injecting a page into another object you could reference to this second argument
+```JavaScript
+var homeView = {
+	pageModel: 'inject(name="home")'
+};
 
-	var homeView = {
-		pageModel: 'inject(name="home")'
-	};
-	
-	var aboutView = {
-		pageModel: 'inject(name="about")'
-	};
-	
-	injector.injectInto(homeView);
-	injector.injectInto(aboutView);
+var aboutView = {
+	pageModel: 'inject(name="about")'
+};
+
+injector.injectInto(homeView);
+injector.injectInto(aboutView);
+```
 
 ##### Combined different type and named injection
 For really advanced usage you could also combine this with a different type identifier:
 
-	injector.map('pageModel', 'home').toSingleton(PageModel);
-	injector.map('pageModel', 'about').toSingleton(PageModel);
+```JavaScript
+injector.map('pageModel', 'home').toSingleton(PageModel);
+injector.map('pageModel', 'about').toSingleton(PageModel);
 
-	var homeView = {
-		model: 'inject(name="home"):pageModel'
-	};
-	
-	var aboutView = {
-		model: 'inject(name="about"):pageModel'
-	};
-	
-	injector.injectInto(homeView);
-	injector.injectInto(aboutView);
-	
+var homeView = {
+	model: 'inject(name="home"):pageModel'
+};
+
+var aboutView = {
+	model: 'inject(name="about"):pageModel'
+};
+
+injector.injectInto(homeView);
+injector.injectInto(aboutView);
+```	
 	
 #### Postconstructs
 Because injection always takes place **after** the object has been instantiated you could not make use of the "soon to be injected" properties. A postConstruct will help with this and is in fact nothing more than a method to be called on the object after injection.
 
 To define the postConstruct method you need to define an array `postConstructs` as a class property on the object you would like to inject into.
 
-	injector.map('myModel').toSingleton(MyModel);
-	var objectToInjectInto = {
-		postConstructs: ['onPostConstruct'],
-		myModel : "inject",
-		
-		onPostConstruct: function() {
-			console.log("myModel has been injected with", this.myModel)
-		}
+```JavaScript
+injector.map('myModel').toSingleton(MyModel);
+var objectToInjectInto = {
+	postConstructs: ['onPostConstruct'],
+	myModel : "inject",
+	
+	onPostConstruct: function() {
+		console.log("myModel has been injected with", this.myModel)
 	}
-	injector.injectInto(objectToInjectInto); 
+}
+injector.injectInto(objectToInjectInto); 
+```
 	
 In most cases you probably just want one method to be called, but you could define multiple methods in the array.
 When the `postConstructs` array is not defined, or empty, nothing will be called after injection.
