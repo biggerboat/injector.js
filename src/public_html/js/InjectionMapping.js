@@ -8,7 +8,7 @@ injector.InjectionMapping = function(type, name, id) {
 
 	this._isValid = function() {
 		return this._value!=null || this._toType!=null;
-	}
+	};
 
 	this._validateBeforeCreation = function() {
 		if(this._isValid()) {
@@ -17,8 +17,8 @@ injector.InjectionMapping = function(type, name, id) {
 		}
 
 		return true;
-	}
-}
+	};
+};
 
 injector.InjectionMapping.prototype = {
 	toValue: function(value) {
@@ -53,4 +53,4 @@ injector.InjectionMapping.prototype = {
 			return new this._toType();
 		}
 	}
-}
+};

@@ -11,12 +11,12 @@ injector.Injector = function() {
 		this._mappings[id] = mapping;
 
 		return mapping;
-	}
+	};
 
 	this._getMappingID = function (type, name) {
 		name = name == undefined ? '' : name;
 		return type + '|' + name;
-	}
+	};
 
 	this._postConstruct = function(object) {
 		var postConstructs = object.postConstructs!== undefined ? object.postConstructs instanceof Array ? object.postConstructs : [] : [],
@@ -32,7 +32,7 @@ injector.Injector = function() {
 				method.apply(object);
 			}
 		}
-	}
+	};
 };
 
 injector.Injector.prototype = {

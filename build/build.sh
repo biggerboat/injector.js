@@ -1,1 +1,0 @@
-node ../src/public_html/assets/libs/r.js -o injector.js-build.js
