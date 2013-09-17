@@ -1,4 +1,4 @@
-#Injector.js
+#Injector.js [![Build Status](https://travis-ci.org/biggerboat/injector.js.png)](https://travis-ci.org/biggerboat/injector.js)
 This library is a simple JavaScript dependency injector inspired by [SwiftSuspenders](https://github.com/tschneidereit/SwiftSuspenders)
 
 ***
@@ -201,9 +201,33 @@ When the `postConstructs` array is not defined, or empty, nothing will be called
 ***
 
 ## Dependencies
-This library should be independent from other libraries, but for compilation purposes the [Require.js](http://requirejs.org) [optimizer](http://requirejs.org/docs/optimization.html) is used and makes it dependent on this library. I'd rather not make it dependent on such libraty and whish to change this in the future. Please feel free to send a pull request and change the build-process for library independent output.
+This library is completely independent from other libraries.
 
 
 ## Framework support
 You should be able to use the dependency injector together with other frameworks and libraries. As far as my experience goes I have used this in combination with [Backbone.js](https://github.com/documentcloud/backbone/). I have extended Backbone.View, so all my views can automatically be injected by the models of my need. 
 I might add an implementation of this later to Github.
+
+## Running the specs
+
+Injector.js was build with [TDD](http://en.wikipedia.org/wiki/Test-driven_development). We created a test suite with [Jasmine gem](https://github.com/pivotal/jasmine-gem). Every commit and pull requests gets tested with [Travis-ci](https://travis-ci.org/biggerboat/injector.js).
+
+You can run the test locally by installing Ruby 2.x.x. For more information on how to install Ruby check the [Rbenv](https://github.com/sstephenson/rbenv#installation) installation guide.
+
+When you have Ruby and Bundler installed run this command to install all dependencies:
+
+	$ bundle install
+
+To see the tests in a browser run this command:
+
+	$ bundle exec rake jasmine
+
+Then open your browser with this url; [http://localhost:8888/](http://localhost:8888/)
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request from Github
