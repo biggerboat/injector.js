@@ -1,0 +1,23 @@
+{
+	"name": "injector.js",
+	"version": "0.1.0",
+	"description": "Dependency injection for JavaScript, inspired by SwiftSuspenders.",
+	"keywords": ["injector.js","injector","injector-js","injectorJS"],
+	"homepage": "https://github.com/biggerboat/injector.js",
+
+	"authors": [
+		"Paul Tondeur",
+		"Michiel van der Ros",
+		"Jankees van Woezik"
+	],
+
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/biggerboat/injector.js.git"
+	},
+
+	"main": "injector-js.js",
+	"dependencies": {
+
+	}
+}
