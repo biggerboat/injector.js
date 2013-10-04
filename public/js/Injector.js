@@ -23,7 +23,7 @@ injector.Injector = function() {
 			index,
 			methodName,
 			method;
-		
+
 		for(index in postConstructs) {
 			methodName = postConstructs[index];
 			method = object[methodName]=== undefined ? null : object[methodName];
@@ -33,6 +33,8 @@ injector.Injector = function() {
 			}
 		}
 	};
+	
+	this.map('injector').toValue(this);
 };
 
 injector.Injector.prototype = {

@@ -189,4 +189,8 @@ describe("Injector", function() {
 		expect(function(){injector.getInstance('someValue', 'myName')}).toThrow(new Error('Cannot return instance "someValue by name myName" because no mapping has been found'));
 	});
 
+	it("registers itself by the injector", function() {
+		expect(injector.getInstance('injector')).toBe(injector);
+	});
+
 });
