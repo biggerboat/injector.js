@@ -11,15 +11,15 @@ module.exports = function (grunt) {
 				separator: ';'
 			},
 			dist: {
-				src: ['../public/js/namespaces.js','../public/js/**/*.js'],
-				dest: '../<%= pkg.name %>.js'
+				src: ['public/js/namespaces.js','public/js/**/*.js'],
+				dest: '<%= pkg.name %>.js'
 			}
 		},
 
 		uglify: {
 			dist: {
 				files: {
-					'../<%= pkg.name %>.min.js': '../<%= pkg.name %>.js'
+					'<%= pkg.name %>.min.js': '<%= pkg.name %>.js'
 				},
 				options: {
 					banner:'<%= banner %>'
@@ -29,13 +29,13 @@ module.exports = function (grunt) {
 
 		copy: {
 			injector: {
-				src: ['../<%= pkg.name %>.js', '../<%= pkg.name %>.min.js'],
-				dest: '../public/dist/*/'
+				src: ['<%= pkg.name %>.js', '<%= pkg.name %>.min.js'],
+				dest: 'public/dist/'
 			}
 		},
 
 		watch: {
-			files: ['../public/js/*.js'],
+			files: ['public/js/*.js'],
 			tasks: ['concat:dist','uglify:dist', 'copy:injector']
 		}
 	});
