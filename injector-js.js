@@ -78,7 +78,7 @@ injector.InjectionMapping.prototype = {
 			index,
 			methodName,
 			method;
-		
+
 		for(index in postConstructs) {
 			methodName = postConstructs[index];
 			method = object[methodName]=== undefined ? null : object[methodName];
@@ -88,6 +88,8 @@ injector.InjectionMapping.prototype = {
 			}
 		}
 	};
+	
+	this.map('injector').toValue(this);
 };
 
 injector.Injector.prototype = {
