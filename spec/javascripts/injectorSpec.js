@@ -193,4 +193,17 @@ describe("Injector", function() {
 		expect(injector.getInstance('injector')).toBe(injector);
 	});
 
+  it("can teardown itself (aka. unmapAll)", function() {
+    var someValue = "Hello World";
+    injector.map('someValue').toValue(someValue);
+    expect(injector.getInstance('someValue')).toBe(someValue);
+    injector.map('someValue2').toValue(someValue);
+    expect(injector.getInstance('someValue2')).toBe(someValue);
+
+    injector.teardown();
+
+    expect(function(){injector.getInstance('someValue')}).toThrow(new Error('Cannot return instance "someValue" because no mapping has been found'));
+    expect(function(){injector.getInstance('someValue2')}).toThrow(new Error('Cannot return instance "someValue2" because no mapping has been found'));
+  });
+
 });
