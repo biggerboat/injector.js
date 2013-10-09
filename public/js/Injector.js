@@ -95,5 +95,11 @@ injector.Injector.prototype = {
 		}
 
 		this._postConstruct(object);
-	}
+	},
+
+  teardown: function() {
+    this._mappings = {};
+    this.map('injector').toValue(this);
+  }
+
 };
