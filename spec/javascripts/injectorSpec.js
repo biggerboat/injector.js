@@ -212,15 +212,15 @@ describe("Injector", function() {
 			var childInjector = injector.createChildInjector();
 
 			expect(childInjector).not.toBeNull();
-			expect(childInjector.parentInjector).toBe(injector);
+			expect(childInjector.getParentInjector()).toBe(injector);
 			expect(childInjector).not.toBe(injector);
 		});
 
 		it("has no parentInjector when it is the top parent", function() {
-			expect(injector.parentInjector).toBeNull();
+			expect(injector.getParentInjector()).toBeNull();
 
 			var childInjector = injector.createChildInjector();
-			expect(injector.parentInjector).toBeNull();
+			expect(injector.getParentInjector()).toBeNull();
 		});
 
 		it("validates mappings on a child that stem from its parent as if it were its own mappings", function() {
@@ -269,10 +269,10 @@ describe("Injector", function() {
 				injectorChild2 = injector.createChildInjector(),
 				injector1Child = injectorChild1.createChildInjector();
 
-			expect(injector.parentInjector).toBeNull();
-			expect(injectorChild1.parentInjector).toBe(injector);
-			expect(injectorChild2.parentInjector).toBe(injector);
-			expect(injector1Child.parentInjector).toBe(injectorChild1);
+			expect(injector.getParentInjector()).toBeNull();
+			expect(injectorChild1.getParentInjector()).toBe(injector);
+			expect(injectorChild2.getParentInjector()).toBe(injector);
+			expect(injector1Child.getParentInjector()).toBe(injectorChild1);
 		});
 
 		it("can access mappings from a parent multiple levels up", function() {
@@ -290,6 +290,18 @@ describe("Injector", function() {
 
 			expect(injectorChild1.getInstance('otherValue')).toBe(otherValue);
 			expect(injector1Child.getInstance('otherValue')).toBe(otherValue);
+		});
+
+		it("can not create mappings for keys that already exist on the parent", function() {
+			var injectorChild = injector.createChildInjector();
+
+			var someValue = "Hello World";
+			injector.map('someValue').toValue(someValue);
+			var otherValue = "Hello child!";
+
+			expect(function() {
+				injectorChild.map('someValue').toValue(otherValue);
+			}).toThrow(new Error('Already has mapping for someValue'));
 		});
 	});
 
