@@ -100,15 +100,15 @@ injector.Injector.prototype = {
 		this._postConstruct(object);
 	},
 
-  teardown: function() {
-    this._mappings = {};
-    this.map('injector').toValue(this);
-  },
+	teardown: function() {
+		this._mappings = {};
+		this.map('injector').toValue(this);
+	},
 
-  createChildInjector: function() {
-    var childInjector = new injector.Injector;
-    childInjector.parentInjector = this;
-    return childInjector;
-  }
+	createChildInjector: function() {
+		var childInjector = new injector.Injector;
+		childInjector.parentInjector = this;
+		return childInjector;
+	}
 
 };
