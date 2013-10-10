@@ -303,6 +303,14 @@ describe("Injector", function() {
 				injectorChild.map('someValue').toValue(otherValue);
 			}).toThrow(new Error('Already has mapping for someValue'));
 		});
+
+		it("force maps itself as the injector", function() {
+			var injectorChild = injector.createChildInjector();
+
+			expect(injector).not.toBe(injectorChild);
+			expect(injector.getInstance('injector')).toBe(injector);
+			expect(injectorChild.getInstance('injector')).toBe(injectorChild);
+		});
 	});
 
 });
