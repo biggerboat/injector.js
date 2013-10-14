@@ -314,5 +314,4 @@ describe("Injector", function() {
 
 	});
 
-
 });
