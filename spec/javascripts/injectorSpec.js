@@ -292,7 +292,7 @@ describe("Injector", function() {
 			expect(injector1Child.getInstance('otherValue')).toBe(otherValue);
 		});
 
-		it("can not create mappings for keys that already exist on the parent", function() {
+		it("can create mappings for keys that already exist on the parent", function() {
 			var injectorChild = injector.createChildInjector();
 
 			var someValue = "Hello World";
@@ -301,7 +301,7 @@ describe("Injector", function() {
 
 			expect(function() {
 				injectorChild.map('someValue').toValue(otherValue);
-			}).toThrow(new Error('Already has mapping for someValue'));
+			}).not.toThrow(new Error('Already has mapping for someValue'));
 		});
 
 		it("force maps itself as the injector", function() {
@@ -311,6 +311,8 @@ describe("Injector", function() {
 			expect(injector.getInstance('injector')).toBe(injector);
 			expect(injectorChild.getInstance('injector')).toBe(injectorChild);
 		});
+
 	});
+
 
 });
