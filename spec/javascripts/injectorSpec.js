@@ -208,6 +208,10 @@ describe("Injector", function() {
 
 	describe("childInjector", function() {
 
+		it("defaults to null when it was not instantiated by a parent", function() {
+			expect(injector.getParentInjector()).toBeNull();
+		});
+
 		it("can create a childInjector which references to its parent", function() {
 			var childInjector = injector.createChildInjector();
 
