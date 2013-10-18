@@ -227,6 +227,28 @@ describe("Injector", function() {
 			expect(injector.getParentInjector()).toBeNull();
 		});
 
+		it("can set the parentInjector", function() {
+			var parentInjector = new window.injector.Injector();
+			injector.setParentInjector(parentInjector);
+
+			expect(injector.getParentInjector()).toBe(parentInjector);
+		});
+
+		it("throws an error when trying to set a parentInjector which is not an injector (or null)", function() {
+			var parentInjector = {};
+
+			expect(function() {injector.setParentInjector(parentInjector)}).toThrow(new Error('Cannot set the parentInjector because it is not an injector'));
+			expect(injector.getParentInjector()).toBeNull();
+		});
+
+		it("can nullify the parentInjector", function() {
+			var parentInjector = new window.injector.Injector();
+			injector.setParentInjector(parentInjector);
+
+			expect(function() {injector.setParentInjector(null)}).not.toThrow();
+			expect(injector.getParentInjector()).toBeNull();
+		});
+
 		it("validates mappings on a child that stem from its parent as if it were its own mappings", function() {
 			var childInjector = injector.createChildInjector();
 
