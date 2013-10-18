@@ -117,7 +117,7 @@ injector.Injector.prototype = {
 	},
 
 	setParentInjector: function(parentInjector) {
-		if(!(parentInjector instanceof injector.Injector))
+		if(parentInjector != null && !(parentInjector instanceof injector.Injector))
 			throw new Error('Cannot set the parentInjector because it is not an injector');
 
 		this._parentInjector = parentInjector;
