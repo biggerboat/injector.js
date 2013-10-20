@@ -208,7 +208,7 @@ This library is completely independent from other libraries.
 
 ## Framework support
 You should be able to use the dependency injector together with other frameworks and libraries. As far as my experience goes I have used this in combination with [Backbone.js](https://github.com/documentcloud/backbone/). I have extended Backbone.View, so all my views can automatically be injected by the models of my need. 
-I might add an implementation of this later to Github.
+An example implementation of this can be found at [Navigator-Injector-Backbone-Command-TodoMVC example](https://github.com/BiggerBoat/nibc-todomvc)
 
 ## Running the specs
 
