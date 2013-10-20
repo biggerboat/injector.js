@@ -7,7 +7,7 @@ A Jasmine testsuite is provided to test all of the supported features by the inj
 
 ***
 ## Examples
-An example implementation of how you could use the injector can be found at [Navigator-Injector-Backbone-Command-TodoMVC example](https://github.com/PaulTondeur/nibc-todomvc)
+An example implementation of how you could use the injector can be found at [Navigator-Injector-Backbone-Command-TodoMVC example](https://github.com/BiggerBoat/nibc-todomvc)
 
 ### Inject a basic type by variable name
 #### Step 1: Setup
