@@ -226,6 +226,9 @@ To see the tests in a browser run this command:
 
 Then open your browser with this url; [http://localhost:8888/](http://localhost:8888/)
 
+## References
+* [Dependency Injection for JavaScript with injector.js](http://blog.paultondeur.com/2013/11/11/dependency-injection-for-javascript-with-injector-js/)
+
 ## Contributing
 
 1. Fork it
