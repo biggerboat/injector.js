@@ -6,8 +6,6 @@ This library is a simple JavaScript dependency injector inspired by [SwiftSuspen
 A Jasmine testsuite is provided to test all of the supported features by the injector. This operates also a good reference to see the API in action.
 
 ***
-## Examples
-An example implementation of how you could use the injector can be found at [Navigator-Injector-Backbone-Command-TodoMVC example](https://github.com/BiggerBoat/nibc-todomvc)
 
 ### Inject a basic type by variable name
 #### Step 1: Setup
@@ -226,7 +224,8 @@ To see the tests in a browser run this command:
 
 Then open your browser with this url; [http://localhost:8888/](http://localhost:8888/)
 
-## References
+## Resources
+* [Navigator-Injector-Backbone-Command-TodoMVC example](https://github.com/BiggerBoat/nibc-todomvc) - An example implementation of how you could use the injector in a TodoMVC project. It contains also a set of other libraries that Bigger Boat has open sourced
 * [Dependency Injection for JavaScript with injector.js](http://blog.paultondeur.com/2013/11/11/dependency-injection-for-javascript-with-injector-js/)
 
 ## Contributing
