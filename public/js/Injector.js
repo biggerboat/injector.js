@@ -65,6 +65,10 @@ injector.Injector.prototype = {
 		return this._hasOwnMapping(type, name) || (this._parentInjector !== null && this._parentInjector.hasMapping(type, name));
 	},
 
+	hasDirectMapping: function(type, name) {
+		return this._hasOwnMapping(type, name);
+	},
+
 	getInstance: function(type, name) {
 		if(this.hasMapping(type, name)) {
 			return this.getMapping(type, name).getValue();

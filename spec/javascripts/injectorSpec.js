@@ -338,6 +338,30 @@ describe("Injector", function() {
 			expect(injectorChild.getInstance('injector')).toBe(injectorChild);
 		});
 
+		it("can verify if the injector has a mapping", function() {
+			var someValue = "Hello World";
+			injector.map('someValue').toValue(someValue);
+
+			expect(injector.hasMapping('someValue')).toBeTruthy();
+		});
+
+		it("can verify if the injector has a mapping on the parent injector", function() {
+			var injectorChild = injector.createChildInjector();
+			var someValue = "Hello World";
+			injector.map('someValue').toValue(someValue);
+
+			expect(injectorChild.hasMapping('someValue')).toBeTruthy();
+		});
+
+		it("can verify if the injector has a direct mapping", function() {
+			var injectorChild = injector.createChildInjector();
+			var someValue = "Hello World";
+			injector.map('someValue').toValue(someValue);
+
+			expect(injector.hasDirectMapping('someValue')).toBeTruthy();
+			expect(injectorChild.hasDirectMapping('someValue')).toBeFalsy();
+		});
+
 	});
 
 });
