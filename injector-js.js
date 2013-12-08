@@ -120,6 +120,10 @@ injector.Injector.prototype = {
 		return this._hasOwnMapping(type, name) || (this._parentInjector !== null && this._parentInjector.hasMapping(type, name));
 	},
 
+	hasDirectMapping: function(type, name) {
+		return this._hasOwnMapping(type, name);
+	},
+
 	getInstance: function(type, name) {
 		if(this.hasMapping(type, name)) {
 			return this.getMapping(type, name).getValue();
@@ -169,6 +173,14 @@ injector.Injector.prototype = {
 
 	getParentInjector: function() {
 		return this._parentInjector;
+	},
+
+	setParentInjector: function(parentInjector) {
+		if(parentInjector != null && !(parentInjector instanceof injector.Injector)) {
+			throw new Error('Cannot set the parentInjector because it is not an injector');
+		}
+
+		this._parentInjector = parentInjector;
 	},
 
 	createChildInjector: function() {
